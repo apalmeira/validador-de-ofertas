@@ -8,7 +8,7 @@
 ;; Pre: Receives a json with offers & another with rules
 ;; Post: It returns a map >> {:state {:rules rules, :offers offers}}
 ;; To get the information inside the created map (ie. the rules) >> (get-in theMap [:state :rules])
-(defn -initialize-offers [offers rules]
+(defn initialize-offers [offers rules]
   (try
     (json/read-str offers)
     (catch Exception e (.getMessage e) (throw (Exception. "Offers exception. Invalid JSON."))))
@@ -47,7 +47,7 @@
   :else (map-offers-rules offers rules)
   )
 
-(defn -process-sale [state sale]
+(defn process-sale [state sale]
   (let [payment-method (get-in (json/read-json sale) [:payment :method])]
     (if (and (not= payment-method "DEBIT")
              (not= payment-method "CREDIT")
